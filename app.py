@@ -33,7 +33,9 @@ def generate_chart():
     time1 = request.form.get('time1')
     time2 = request.form.get('time2')
     selected_attributes = request.form.getlist('attributes')
+    selected_plot = request.form.getlist('chart')
 
+    print("Selected plot: ", selected_plot)
     # Connect to the database
     conn = pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+',1433;DATABASE='+database+';UID='+username+';PWD='+ password+ ';Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
     cur = conn.cursor()
@@ -62,7 +64,13 @@ def generate_chart():
         chart_data.append(data_point)
     print("CHART DATA",chart_data)
     # Render the template with the chart data and selected attributes
-    return render_template('piechart.html', chart_data=json.dumps(chart_data), selected_attributes=selected_attributes)
+    if (selected_plot[0] == 'ScatterPlot'):
+        return render_template('chart.html', chart_data=json.dumps(chart_data), selected_attributes=selected_attributes)
+    if (selected_plot[0] == 'BarChart'):
+        return render_template('histplot.html', chart_data=json.dumps(chart_data), selected_attributes=selected_attributes)
+    if (selected_plot[0] == 'PieChart'):
+        return render_template('piechart.html', chart_data=json.dumps(chart_data), selected_attributes=selected_attributes)
+    return render_template('retry.html')
 
 if __name__ == '__main__':
     app.run()

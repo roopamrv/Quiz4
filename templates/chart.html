@@ -19,8 +19,8 @@
         // Create the chart using D3.js based on the selected attributes
         // Here, I'm providing a basic example of a scatter plot
         var svgWidth = 800;
-        var svgHeight = 400;
-        var margin = { top: 20, right: 20, bottom: 30, left: 40 };
+        var svgHeight = 800;
+        var margin = { top: 30, right: 30, bottom: 30, left: 30 };
         var chartWidth = svgWidth - margin.left - margin.right;
         var chartHeight = svgHeight - margin.top - margin.bottom;
 
@@ -31,18 +31,6 @@
 
         // Add your chart code here based on the selected attributes
         // You can use D3.js or any other charting library to create the desired chart
-
-        // Create the chart using D3.js based on the chartData
-        var svgWidth = 400;
-        var svgHeight = 400;
-        var margin = { top: 20, right: 20, bottom: 30, left: 40 };
-        var chartWidth = svgWidth - margin.left - margin.right;
-        var chartHeight = svgHeight - margin.top - margin.bottom;
-
-        var svg = d3.select("#chart")
-            .append("svg")
-            .attr("width", svgWidth)
-            .attr("height", svgHeight);
 
         var xScale = d3.scaleLinear()
             .domain(d3.extent(chartData, function(d) { return d.time; }))
