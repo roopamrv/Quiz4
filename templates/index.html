@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chart Demo</title>
+</head>
+<body>
+    <h1>Chart Demo</h1>
+    <form action="/generate_chart" method="POST">
+        <label for="time1">Time 1:</label>
+        <input type="text" name="time1" id="time1">
+        <br>
+        <label for="time2">Time 2:</label>
+        <input type="text" name="time2" id="time2">
+        <br>
+        <input type="checkbox" name="attributes" value="latitude"> Latitude
+        <input type="checkbox" name="attributes" value="mag"> Magnitude
+        <input type="checkbox" name="attributes" value="place"> Place
+        <br>
+        <input type="submit" value="Generate Chart">
+    </form>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chart Demo</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <h1>Chart Demo</h1>
+    <div id="chart"></div>
+
+    <script>
+        // Get the chart data from the Flask backend
+        var chartData = JSON.parse('{{ chart_data | safe}}');
+        var selectedAttributes = JSON.parse('{{ selected_attributes | tojson }}');
+
+
+        console.log("Chart data: ",chartData)
+        console.log("Selected Attributes: ", selectedAttributes)
+        // Create the chart using D3.js based on the selected attributes
+        // Here, I'm providing a basic example of a scatter plot
+        var svgWidth = 800;
+        var svgHeight = 400;
+        var margin = { top: 20, right: 20, bottom: 30, left: 40 };
+        var chartWidth = svgWidth - margin.left - margin.right;
+        var chartHeight = svgHeight - margin.top - margin.bottom;
+
+        var svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight);
+
+        // Add your chart code here based on the selected attributes
+        // You can use D3.js or any other charting library to create the desired chart
+
+        // Create the chart using D3.js based on the chartData
+        var svgWidth = 400;
+        var svgHeight = 400;
+        var margin = { top: 20, right: 20, bottom: 30, left: 40 };
+        var chartWidth = svgWidth - margin.left - margin.right;
+        var chartHeight = svgHeight - margin.top - margin.bottom;
+
+        var svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight);
+
+        var xScale = d3.scaleLinear()
+            .domain(d3.extent(chartData, function(d) { return d.time; }))
+            .range([margin.left, chartWidth]);
+
+        var yScale = d3.scaleLinear()
+            .domain(d3.extent(chartData, function(d) { return d.latitude; }))
+            .range([chartHeight, margin.top]);
+
+        svg.selectAll("circle")
+            .data(chartData)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d) { return xScale(d.time); })
+            .attr("cy", function(d) { return yScale(d.latitude); })
+            .attr("r", 5)
+            .attr("fill", "steelblue");
+
+        svg.append("g")
+            .attr("transform", "translate(0," + chartHeight + ")")
+            .call(d3.axisBottom(xScale))
+            .append("text")
+            .attr("class", "axis-label")
+            .attr("x", chartWidth)
+            .attr("y", -10)
+            .style("text-anchor", "end")
+            .text("Time");
+
+        svg.append("g")
+            .attr("transform", "translate(" + margin.left + ", 0)")
+            .call(d3.axisLeft(yScale))
+            .append("text")
+            .attr("class", "axis-label")
+            .attr("transform", "rotate(-90)")
+            .attr("x", -margin.top)
+            .attr("y", 10)
+            .style("text-anchor", "end")
+            .text("Latitude");
+
+    </script>
+</body>
+</html>
